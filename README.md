@@ -1,7 +1,13 @@
 # Tutorial de manejo de imágenes con Cloudinary en Java
 
+A continuación se describen los pasos básicos para implementar carga de imágenes a un proyecto API Rest con Java Spring Boot.
 
-**ÍNDICE**
+Para ejecutar el proyecto de este repositorio:
+- Crear una base de datos de nombre "cloudinary". Revisa en application.properties las credenciales de acceso (por defecto username: root, password: root)
+- Complear en CloudinaryService tus credenciales de acceso a tu cuenta de Cloudinary
+
+<br>
+<br>
 
 
 ## 1 - Crear cuenta en Cloudinary
