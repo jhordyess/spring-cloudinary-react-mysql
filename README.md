@@ -9,27 +9,29 @@
 Ir a la web de [**Cloudinary**](https://cloudinary.com/users/register_free "aquí") y registrarse o iniciar sesión con cuenta de Google.
 En el DASHBOARD se pueden ver los 3 datos que serán necesarios para vincular esta cuenta de Cloudinary con tu proyecto en Java.
 
-![image](https://github.com/nzaeta/TutorialCloudinary/assets/106348660/aea2d03b-6588-4cf3-a4b7-ccafb1a6c44d)
+![image](https://github.com/nzaeta/Cloudinary/assets/106348660/424321ad-b3ef-4917-bce7-e89e45c5d263)
+
 
 En MEDIA EXPLORER aparecerán las imágenes que carguemos. Para empezar habrá unas imágenes de muestra (samples)
 
-![image](https://github.com/nzaeta/TutorialCloudinary/assets/106348660/abb1dc3f-ccad-4016-a00a-738878a66478)
+![image](https://github.com/nzaeta/Cloudinary/assets/106348660/447e0f73-a548-43cc-af22-038fcabed915)
+
 
 
 
 ## 2 - Agregar dependencia a pom.xml
 
 ```html
-		<dependency>
-			<groupId>com.cloudinary</groupId>
-			<artifactId>cloudinary-http44</artifactId>
-			<version>1.32.2</version>
-		</dependency>
+<dependency>
+	<groupId>com.cloudinary</groupId>
+	<artifactId>cloudinary-http44</artifactId>
+	<version>1.32.2</version>
+</dependency>
 ```
 ## 3 - Crear clase servicio CloudinaryService
 
-Esta clase contiene los métodos para cargar y eliminar las imágenes de Cloudinary.
-COMPLETAR los valores de cloud_name, api_key y api_secret con los valores correspondientes que figuran en el DASHBOARD.
+Esta clase contiene los métodos para cargar y eliminar las imágenes de Cloudinary.<br>
+COMPLETAR los valores de cloud_name, api_key y api_secret con los valores correspondientes que figuran en el DASHBOARD.<br>
 Definir un nombre para la carpeta en donde se guardarán las imágenes.
 
 ```java
@@ -152,58 +154,59 @@ Aquí tendremos los endpoints para:
 @RequestMapping("/imagen")
 public class ImagenController {
 
-  @Autowired
-  CloudinaryService cloudinaryService;
+	@Autowired
+	CloudinaryService cloudinaryService;
 
-  @Autowired
-  ImagenService imagenService;
+	@Autowired
+	ImagenService imagenService;
 
-  @GetMapping("/list")
-  public ResponseEntity<List<Imagen>> list(){
-      List<Imagen> list = imagenService.list();
-      return new ResponseEntity(list, HttpStatus.OK);
-  }
-    
+	@GetMapping("/list")
+	public ResponseEntity<List<Imagen>> list() {
+		List<Imagen> list = imagenService.list();
+		return new ResponseEntity(list, HttpStatus.OK);
+	}
+
 	@GetMapping("/{fileId}")
 	public ResponseEntity<?> getImagen(@PathVariable Long fileId) throws IOException {
-		Imagen imageData= imagenService.getImagen(fileId).get();
+		Imagen imageData = imagenService.getImagen(fileId).get();
 		return ResponseEntity.status(HttpStatus.OK).body(imageData);
 	}
 
-    @PostMapping("/upload")
-    public ResponseEntity<?> upload(@RequestParam ("imagen") MultipartFile multipartFile)throws IOException {
-        BufferedImage bi = ImageIO.read(multipartFile.getInputStream());
-        if(bi == null){
-            return new ResponseEntity("imagen no válida", HttpStatus.BAD_REQUEST);
-        }
-        Map result = cloudinaryService.upload(multipartFile);
+	@PostMapping("/upload")
+	public ResponseEntity<?> upload(@RequestParam("imagen") MultipartFile multipartFile) throws IOException {
+		BufferedImage bi = ImageIO.read(multipartFile.getInputStream());
+		if (bi == null) {
+			return new ResponseEntity("imagen no válida", HttpStatus.BAD_REQUEST);
+		}
+		Map result = cloudinaryService.upload(multipartFile);
 		Imagen imagen = new Imagen();
 		imagen.setName((String) result.get("original_filename"));
 		imagen.setImagenUrl((String) result.get("url"));
 		imagen.setCloudinaryId((String) result.get("public_id"));
 
-        imagenService.save(imagen);
-        return new ResponseEntity(imagen, HttpStatus.OK);
-    }
+		imagenService.save(imagen);
+		return new ResponseEntity(imagen, HttpStatus.OK);
+	}
 
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> delete(@PathVariable("id") Long id)throws IOException {
-        if(!imagenService.exists(id))
-            return new ResponseEntity("no existe", HttpStatus.NOT_FOUND);
+	@DeleteMapping("/delete/{id}")
+	public ResponseEntity<?> delete(@PathVariable("id") Long id) throws IOException {
+		if (!imagenService.exists(id))
+			return new ResponseEntity("no existe", HttpStatus.NOT_FOUND);
 		Imagen imagen = imagenService.getImagen(id).get();
-        Map result = cloudinaryService.delete(imagen.getCloudinaryId());
-        imagenService.delete(id);
-        return new ResponseEntity("imagen eliminada", HttpStatus.OK);
-    }
+		Map result = cloudinaryService.delete(imagen.getCloudinaryId());
+		imagenService.delete(id);
+		return new ResponseEntity("imagen eliminada", HttpStatus.OK);
+	}
 }
 ```
 
 ## 7 - Testear endpoints en Postman
 
-Para subir una imagen (método POST "upload") elegir Body --> form-data.
+Para subir una imagen (método POST "upload") elegir Body --> form-data.<br>
 En el campo "Key" escribir "imagen". Elegir la opción "File" en el desplegable de ese campo. Luego en "Value" seleccionar el archivo a subir.
 
-![image](https://github.com/nzaeta/TutorialCloudinary/assets/106348660/247442c0-bedb-48cd-9c4d-eb4ea0b10b97)
+![image](https://github.com/nzaeta/Cloudinary/assets/106348660/68f36b27-3638-43cf-b5df-5ca4e4460eb5)
+
 
 
 
