@@ -27,47 +27,47 @@ import com.tutorial.cloudinary.service.ImagenService;
 @RequestMapping("/imagen")
 public class ImagenController {
 
-    @Autowired
-    CloudinaryService cloudinaryService;
+	@Autowired
+	CloudinaryService cloudinaryService;
 
-    @Autowired
-    ImagenService imagenService;
+	@Autowired
+	ImagenService imagenService;
 
-    @GetMapping("/list")
-    public ResponseEntity<List<Imagen>> list(){
-        List<Imagen> list = imagenService.list();
-        return new ResponseEntity(list, HttpStatus.OK);
-    }
-    
+	@GetMapping("/list")
+	public ResponseEntity<List<Imagen>> list() {
+		List<Imagen> list = imagenService.list();
+		return new ResponseEntity(list, HttpStatus.OK);
+	}
+
 	@GetMapping("/{fileId}")
 	public ResponseEntity<?> getImagen(@PathVariable Long fileId) throws IOException {
-		Imagen imageData= imagenService.getImagen(fileId).get();
+		Imagen imageData = imagenService.getImagen(fileId).get();
 		return ResponseEntity.status(HttpStatus.OK).body(imageData);
 	}
 
-    @PostMapping("/upload")
-    public ResponseEntity<?> upload(@RequestParam ("imagen") MultipartFile multipartFile)throws IOException {
-        BufferedImage bi = ImageIO.read(multipartFile.getInputStream());
-        if(bi == null){
-            return new ResponseEntity("imagen no válida", HttpStatus.BAD_REQUEST);
-        }
-        Map result = cloudinaryService.upload(multipartFile);
+	@PostMapping("/upload")
+	public ResponseEntity<?> upload(@RequestParam("imagen") MultipartFile multipartFile) throws IOException {
+		BufferedImage bi = ImageIO.read(multipartFile.getInputStream());
+		if (bi == null) {
+			return new ResponseEntity("imagen no válida", HttpStatus.BAD_REQUEST);
+		}
+		Map result = cloudinaryService.upload(multipartFile);
 		Imagen imagen = new Imagen();
 		imagen.setName((String) result.get("original_filename"));
 		imagen.setImagenUrl((String) result.get("url"));
 		imagen.setCloudinaryId((String) result.get("public_id"));
 
-        imagenService.save(imagen);
-        return new ResponseEntity(imagen, HttpStatus.OK);
-    }
+		imagenService.save(imagen);
+		return new ResponseEntity(imagen, HttpStatus.OK);
+	}
 
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> delete(@PathVariable("id") Long id)throws IOException {
-        if(!imagenService.exists(id))
-            return new ResponseEntity("no existe", HttpStatus.NOT_FOUND);
+	@DeleteMapping("/delete/{id}")
+	public ResponseEntity<?> delete(@PathVariable("id") Long id) throws IOException {
+		if (!imagenService.exists(id))
+			return new ResponseEntity("no existe", HttpStatus.NOT_FOUND);
 		Imagen imagen = imagenService.getImagen(id).get();
-        Map result = cloudinaryService.delete(imagen.getCloudinaryId());
-        imagenService.delete(id);
-        return new ResponseEntity("imagen eliminada", HttpStatus.OK);
-    }
+		Map result = cloudinaryService.delete(imagen.getCloudinaryId());
+		imagenService.delete(id);
+		return new ResponseEntity("imagen eliminada", HttpStatus.OK);
+	}
 }
