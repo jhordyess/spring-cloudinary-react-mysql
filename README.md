@@ -1,4 +1,4 @@
-# Tutorial de manejo de imágenes con Cloudinary en Java Springboot
+# Tutorial de manejo de imágenes con Cloudinary en Java
 
 
 **ÍNDICE**
@@ -6,7 +6,7 @@
 
 ## 1 - Crear cuenta en Cloudinary
 
-Ir a la web de [**Cloudinary**](https://cloudinary.com/users/register_free "aquí") y registrarse o iniciar sesión con cuenta de Google.
+Ir a la web de [**Cloudinary**](https://cloudinary.com/users/register_free "ir al sitio web de Cloudinary") y registrarse o iniciar sesión con cuenta de Google.<br>
 En el DASHBOARD se pueden ver los 3 datos que serán necesarios para vincular esta cuenta de Cloudinary con tu proyecto en Java.
 
 ![image](https://github.com/nzaeta/Cloudinary/assets/106348660/424321ad-b3ef-4917-bce7-e89e45c5d263)
