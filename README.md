@@ -4,7 +4,7 @@ A continuación se describen los pasos básicos para implementar carga de imáge
 
 Para ejecutar el proyecto de este repositorio:
 - Crear una base de datos de nombre "cloudinary". Revisa en application.properties las credenciales de acceso (por defecto username: root, password: root)
-- Complear en CloudinaryService tus credenciales de acceso a tu cuenta de Cloudinary
+- Completar en CloudinaryService tus credenciales de acceso a tu cuenta de Cloudinary
 
 <br>
 <br>
