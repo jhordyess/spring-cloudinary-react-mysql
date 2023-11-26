@@ -210,6 +210,7 @@ public class ImagenController {
 
 Para subir una imagen (método POST "upload") elegir Body --> form-data.<br>
 En el campo "Key" escribir "imagen". Elegir la opción "File" en el desplegable de ese campo. Luego en "Value" seleccionar el archivo a subir.
+Aquí la colección en [**Postman**](https://www.postman.com/nzaeta86/workspace/cloudinary/request/29747805-e31c4d50-89fa-4bdf-b1e9-d55da8df654a "Ver colección en Postman").
 
 ![image](https://github.com/nzaeta/Cloudinary/assets/106348660/68f36b27-3638-43cf-b5df-5ca4e4460eb5)
 
