@@ -1,4 +1,4 @@
-# Tutorial de manejo de imágenes con Cloudinary en Java
+# Tutorial de gestión de imágenes con Cloudinary en Java
 
 A continuación se describen los pasos básicos para implementar carga de imágenes a un proyecto API Rest con Java Spring Boot.
 
