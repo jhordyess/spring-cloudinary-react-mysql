@@ -1,0 +1,57 @@
+services:
+  mysql:
+    image: mysql:8.2
+    container_name: scrm_mysql
+    restart: always
+    ports:
+      - 3306:3306
+    environment:
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+      - MYSQL_USER
+      - MYSQL_PASSWORD
+      - MYSQL_DATABASE
+    volumes:
+      - type: volume
+        source: mysql-data
+        target: /var/lib/mysql
+    networks:
+      - scrm_net
+
+  backend:
+    depends_on:
+      - mysql
+    container_name: scrm_backend
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    environment:
+      - DB_HOST=mysql:3306
+      - DB_USER
+      - DB_PASSWORD
+      - DB_DATABASE
+    ports:
+      - "8080:8080"
+    networks:
+      - scrm_net
+
+  frontend:
+    depends_on:
+      - backend
+    container_name: scrm_frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        - VITE_BACKEND_URL
+    ports:
+      - "80:80"
+    networks:
+      - scrm_net
+
+volumes:
+  mysql-data:
+
+
+networks:
+  scrm_net:
+    driver: bridge
