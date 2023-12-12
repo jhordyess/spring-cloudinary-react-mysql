@@ -21,6 +21,7 @@ services:
     depends_on:
       - mysql
     container_name: scrm_backend
+    restart: always
     build:
       context: ./backend
       dockerfile: Dockerfile
@@ -38,6 +39,7 @@ services:
     depends_on:
       - backend
     container_name: scrm_frontend
+    restart: always
     build:
       context: ./frontend
       dockerfile: Dockerfile
