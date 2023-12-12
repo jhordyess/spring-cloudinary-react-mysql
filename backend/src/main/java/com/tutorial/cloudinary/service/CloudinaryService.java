@@ -16,22 +16,33 @@ import com.cloudinary.utils.ObjectUtils;
 
 @Service
 public class CloudinaryService {
+    @Value("${cloudinary.cloud-name}")
+    private String cloudName;
+
+    @Value("${cloudinary.api.key}")
+    private String apiKey;
+
+    @Value("${cloudinary.api.secret}")
+    private String apiSecret;
+
+    @Value("${cloudinary.folder}")
+    private String folder;
 
     Cloudinary cloudinary;
 
     private Map<String, String> valuesMap = new HashMap<>();
 
     public CloudinaryService() {
-        valuesMap.put("cloud_name", "COMPLETAR");
-        valuesMap.put("api_key", "COMPLETAR");
-        valuesMap.put("api_secret", "COMPLETAR");
+        valuesMap.put("cloud_name", cloudName);
+        valuesMap.put("api_key", apiKey);
+        valuesMap.put("api_secret", apiSecret);
         cloudinary = new Cloudinary(valuesMap);   
     }
     
 
     public Map upload(MultipartFile multipartFile) throws IOException {
         File file = convert(multipartFile);
-        Map result = cloudinary.uploader().upload(file, ObjectUtils.asMap("folder", "NOMBRECARPETA/"));
+        Map result = cloudinary.uploader().upload(file, ObjectUtils.asMap("folder", folder + "/"));
         file.delete();
         return result;
     }
