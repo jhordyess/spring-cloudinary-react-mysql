@@ -12,7 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 
-
+import org.springframework.beans.factory.annotation.Value;
 
 @Service
 public class CloudinaryService {
