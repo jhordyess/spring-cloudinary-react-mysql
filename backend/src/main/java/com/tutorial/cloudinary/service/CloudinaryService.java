@@ -12,20 +12,8 @@ import org.springframework.web.multipart.MultipartFile;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 
-import org.springframework.beans.factory.annotation.Value;
-
 @Service
 public class CloudinaryService {
-    @Value("${cloudinary.cloud-name}")
-    private String cloudName;
-
-    @Value("${cloudinary.api.key}")
-    private String apiKey;
-
-    @Value("${cloudinary.api.secret}")
-    private String apiSecret;
-
-    @Value("${cloudinary.folder}")
     private String folder;
 
     Cloudinary cloudinary;
@@ -33,6 +21,15 @@ public class CloudinaryService {
     private Map<String, String> valuesMap = new HashMap<>();
 
     public CloudinaryService() {
+        String cloudName = System.getenv("CLOUDINARY_CLOUD_NAME");
+        String apiKey = System.getenv("CLOUDINARY_API_KEY");
+        String apiSecret = System.getenv("CLOUDINARY_API_SECRET");
+        folder = System.getenv("CLOUDINARY_FOLDER");
+
+        if (cloudName == null || apiKey == null || apiSecret == null || folder == null) {
+            throw new IllegalArgumentException("Cloudinary configuration variables are not set in the environment");
+        }
+
         valuesMap.put("cloud_name", cloudName);
         valuesMap.put("api_key", apiKey);
         valuesMap.put("api_secret", apiSecret);
